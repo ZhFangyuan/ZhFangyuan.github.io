@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhfangyuan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="写在前面，看了比较多的博文将动态规划的，解决问题的基础都是状态转移方程。这里我个人认为至少有两点需要深入探讨一下，第一个是一个问题为什么可以用动态规划求解，即为什么满足动态规划的三个条件，大家基本上都是默认这个问题可以用动态规划求解，然后给出了状态转移方程；第二个是出口条件的设定，有了公式还不能解决问题，还要考虑当问题到达最小子问题的时候，值为多少。  一、例题1、给出一个数字序列，从中选出不相">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划">
+<meta property="og:url" content="https://zhfangyuan.github.io/2021/11/08/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.html">
+<meta property="og:site_name" content="Code World">
+<meta property="og:description" content="写在前面，看了比较多的博文将动态规划的，解决问题的基础都是状态转移方程。这里我个人认为至少有两点需要深入探讨一下，第一个是一个问题为什么可以用动态规划求解，即为什么满足动态规划的三个条件，大家基本上都是默认这个问题可以用动态规划求解，然后给出了状态转移方程；第二个是出口条件的设定，有了公式还不能解决问题，还要考虑当问题到达最小子问题的时候，值为多少。  一、例题1、给出一个数字序列，从中选出不相">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-08T00:43:52.000Z">
+<meta property="article:modified_time" content="2022-01-10T11:08:20.539Z">
+<meta property="article:author" content="大白菜">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zhfangyuan.github.io/2021/11/08/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhfangyuan.github.io/2021/11/08/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/","path":"2021/11/08/动态规划/","title":"动态规划"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>动态规划 | Code World</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Code World</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我的记录</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BE%8B%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">一、例题</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">大白菜</p>
+  <div class="site-description" itemprop="description">前面有光</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhfangyuan.github.io/2021/11/08/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="大白菜">
+      <meta itemprop="description" content="前面有光">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Code World">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          动态规划
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-11-08 08:43:52" itemprop="dateCreated datePublished" datetime="2021-11-08T08:43:52+08:00">2021-11-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-01-10 19:08:20" itemprop="dateModified" datetime="2022-01-10T19:08:20+08:00">2022-01-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p>写在前面，看了比较多的博文将动态规划的，解决问题的基础都是状态转移方程。这里我个人认为至少有两点需要深入探讨一下，第一个是一个问题为什么可以用动态规划求解，即为什么满足动态规划的三个条件，大家基本上都是默认这个问题可以用动态规划求解，然后给出了状态转移方程；第二个是出口条件的设定，有了公式还不能解决问题，还要考虑当问题到达最小子问题的时候，值为多少。</p>
+</blockquote>
+<h2 id="一、例题"><a href="#一、例题" class="headerlink" title="一、例题"></a>一、例题</h2><p>1、给出一个数字序列，从中选出不相邻的数字，使得这些数字之和最大。</p>
+<p>输入：4 1 1 9 1</p>
+<p>输出：13（4和9不相邻，且加起来的和是最大的）</p>
+<span id="more"></span>
+
+<p>分析：先定义一个函数F(i)，其中i表示这个数字序列的第i个数字，函数F(i)表示从i个数字中选出不相邻的数字，使得这些数字之和最大。我们每次只需要考虑第i个数字是否选即可。如果我们选择第i个数字作为结果序列的一员，则数字之和为F(i-2)+V(i)，其中V(i)表示第i个数字的值；如果我们不选择第i个数字，则只需要考虑前i-1个数字可以选出的最大的和F(i-1)即可。所以每次我们需要得到max{F(i-1,F(i-2)+V(i)}。这就是我们得到的转移方程。最后再来看一看递归到最底层的时候是怎样的，即考虑F(0)、F(1)和F(2)的值，显然F(0)=0，F(1)=V(1)，而F(2)=max{v(1),v(2)}。</p>
+<p>java代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSum</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = arr.length;</span><br><span class="line">    <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[n+<span class="number">1</span>];</span><br><span class="line">    res[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    res[<span class="number">1</span>] = arr[<span class="number">0</span>];</span><br><span class="line">    res[<span class="number">2</span>] = Math.max(arr[<span class="number">0</span>],arr[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">3</span>; i &lt; n+<span class="number">1</span>; i++) &#123;</span><br><span class="line">        res[i] = Math.max(res[i-<span class="number">1</span>],res[i-<span class="number">2</span>]+arr[i-<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>细节：对于动态规划问题，我比较喜欢设置一个哨兵位，即res[0]为哨兵，结果从res[1]开始计算，这样是为了方便计算，res[i]中的i就可以表示实际的第几个数字了，而不用像数组那样，还需要i-1。但是对于给出参数arr，它的第i-1位才表示第i个数字，在编码的时候需要注意一下。</p>
+</blockquote>
+<p>2、给出一个数字序列（值都大于0）和一个目标值T&gt;0，判断这个数字序列中的能否选出和为T的一组数字，能则输出True，否则输出False。</p>
+<p>输入：3 34 4 12 5 2</p>
+<p>输入：9</p>
+<p>输出：True（4+5=9）</p>
+<p>分析：问题可以简述为前N个数字的和（全部数字或者部分数字之和）能否构成T，此时只需要考虑第N个数字是否要参与和的运算，（1）首先当v(N)==T的时候，则前N个数字一定能够组成T；（2）当v(N)&lt;T的时候，需要考虑N-1个数字能否组成T和N-1个数字能否组成T-v(N)，两者有一个为True则结果为True；（3）当v(N) &gt;T的时候，需要判断前N-1个数字能否构成T即可。</p>
+<p>分析可能比较抽象，下面看一个表格。</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">F</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">F</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">T</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">F</td>
+<td align="center">F</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">T</td>
+<td align="center">T</td>
+</tr>
+</tbody></table>
+<p>表头行的每个数字表示目标值（Target），表头列的每个数字代表第几个数字。</p>
+<p>首先看第0行，表示只有0个数字，显然不可能组成任何一个数，因此第0行的所有结果均为false，再看第0列，此时表示目标值为0，由于数组中的值都大于0，所以所有结果都为false。接着开始计算，看第一行，第一行表示前1个数字能否组成1、2、3…9，第一个数字的值为3，即v(1)=3&gt;1,2，则根据前文分析中的第三点可以得出，需要看前1-1=0个数能否构成T=9，而前0个数不能构成任何一个数字，所以（1，1）、（1，2）都为false；v(1)=3，根据前文分析的第一点可以得出，前1个数一定能够组成数字3，则（1，3）为true；v(1)=3&lt;4,5,…i,…,9，根据前文分析的第二点，需要考虑前1-1=0个数能否组成T=9和前1-1=0个数能否组成T-i，显然两个条件都为false。</p>
+<p>按照上述的分析，一行一行往下计算，最终可以得到上述表格。而我们要的结果则是（6，9）的值，从表格中可以看出，结果为true。</p>
+<p>java代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isTarget</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = arr.length;</span><br><span class="line">        <span class="keyword">boolean</span>[][] res = <span class="keyword">new</span> <span class="keyword">boolean</span>[n+<span class="number">1</span>][target+<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n+<span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; target+<span class="number">1</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (arr[i-<span class="number">1</span>] == j) &#123;</span><br><span class="line">                    res[i][j] = <span class="keyword">true</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span> <span class="keyword">if</span> (arr[i-<span class="number">1</span>] &lt; j)&#123;</span><br><span class="line">                    res[i][j] = res[i-<span class="number">1</span>][j] || res[i-<span class="number">1</span>][j-arr[i-<span class="number">1</span>]];</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                    res[i][j] = res[i-<span class="number">1</span>][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res[n][target];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>3、0-1背包问题</p>
+<p>有N件物品和一个容量是V的背包。每件物品只能使用一次。第i件物品的体积是$$v_i$$_，价值是$$w_i$$，求解将哪些物品装入背包，可使这些物品的总体积不超过背包容量，且价值最大。输出最大价值。</p>
+<p>输入：</p>
+<p>4 5<br>1 2<br>2 4<br>3 4<br>4 5</p>
+<p>输出：8</p>
+<p>分析：其实问题2即可看作是一个背包问题，这里再次分析一下。将$$N$$个物品放入容量为$$V$$的背包中，每次只需要考虑前$$i$$个物品放入容量为$$V=0,1,2…$$的背包的最大价值即可。直接给出转移方程如下：<br>$$<br>F[i][j]=Max{(F[i-1][j],F[i-1][j-w_i])}<br>$$<br>公式的含义表示将前i个物品放入容量为$$j$$的背包中的最大价值是多少。在$$w_i&lt;=j$$的情况下，需要考虑第$$i$$个物品是否放入背包两种情况。若不放，则需要知道将前$$i-1$$个物品放入容量为j的背包中的最大价值；若放入，则需要考虑将前$$i-1$$个物品放入容量为$$j-w_i$$的背包中的最大价值。两者取最大值即可。</p>
+<p>java代码如下：</p>
+<p>解法1：时间复杂度为0(NV)，空间复杂度0(NV)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Scanner in = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        String str = in.nextLine();</span><br><span class="line">        <span class="keyword">int</span> N = Integer.parseInt(str.split(<span class="string">&quot; &quot;</span>)[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">int</span> V = Integer.parseInt(str.split(<span class="string">&quot; &quot;</span>)[<span class="number">1</span>]);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span>[] carr = <span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span>[] warr = <span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">            String cAndW = in.nextLine();</span><br><span class="line">            carr[i+<span class="number">1</span>] = Integer.parseInt(cAndW.split(<span class="string">&quot; &quot;</span>)[<span class="number">0</span>]);</span><br><span class="line">            warr[i+<span class="number">1</span>] = Integer.parseInt(cAndW.split(<span class="string">&quot; &quot;</span>)[<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[V+<span class="number">1</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N+<span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = V; j &gt; <span class="number">0</span>; j--) &#123;</span><br><span class="line">                <span class="keyword">if</span> (carr[i] &lt;= j) &#123;</span><br><span class="line">                    res[j] = Math.max(res[j],res[j-carr[i]]+warr[i]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(res[V]);</span><br><span class="line">        </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解法2：时间复杂度为0(NV)，空间复杂度0(V)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Scanner in = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        String str = in.nextLine();</span><br><span class="line">        <span class="keyword">int</span> N = Integer.parseInt(str.split(<span class="string">&quot; &quot;</span>)[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">int</span> V = Integer.parseInt(str.split(<span class="string">&quot; &quot;</span>)[<span class="number">1</span>]);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span>[] carr = <span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span>[] warr = <span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">            String cAndW = in.nextLine();</span><br><span class="line">            carr[i+<span class="number">1</span>] = Integer.parseInt(cAndW.split(<span class="string">&quot; &quot;</span>)[<span class="number">0</span>]);</span><br><span class="line">            warr[i+<span class="number">1</span>] = Integer.parseInt(cAndW.split(<span class="string">&quot; &quot;</span>)[<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span>[][] res = <span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>][V+<span class="number">1</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N+<span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; V+!; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (carr[i] &lt;= j) &#123;</span><br><span class="line">                    res[i][j] = Math.max(res[i-<span class="number">1</span>][j],res[i-<span class="number">1</span>][j-carr[i]]+warr[i]);</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                    res[i][j] = res[i-<span class="number">1</span>][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(res[N][V]);</span><br><span class="line">        </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/11/06/Integer-valueOf%E5%92%8CInteger-parseInt/" rel="prev" title="Integer.valueOf和Integer.parseInt">
+                  <i class="fa fa-chevron-left"></i> Integer.valueOf和Integer.parseInt
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/11/10/typora%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/" rel="next" title="typora常用命令记录">
+                  typora常用命令记录 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大白菜</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
