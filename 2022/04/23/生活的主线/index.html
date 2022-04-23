@@ -20,27 +20,27 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhfangyuan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="概念 定义：注解（Annotation），也叫元数据。一种代码级别的说明。它是JDK1.5及以后版本引入的一个特性，与类、接口、枚举是在同一个层次。它可以声明在包、类、字段、方法、局部变量、方法参数等的前面，用来对这些元素进行说明，注释。   定义可能比较抽象，其实我们平时看到的@Override、@Deprecated 等都是注解，其中@Override表示这个方法是重写的方法，@Depreca">
+<meta name="description" content="最近在阅读鲁迅的一些文章，有些文章感觉很晦涩难懂，于是在知乎上搜索了一下鲁迅。也没看到什么有意思的回答，然后看到知乎的热门话题《哪一刻你意识到，阅读这件事依然无可替代？》，我最近不是正在阅读吗，于是点进去看了下，看到如下的一位答主的回答和该回答下的一条回复，我觉得很有道理。现摘录在这里。  这个话题我挺有感触。  当人毕业几年，到了三十这个年纪的时候，你会有很多压力需要应付，会有很多不开心的事，并">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java注解">
-<meta property="og:url" content="https://zhfangyuan.github.io/2021/12/29/java%E6%B3%A8%E8%A7%A3/index.html">
+<meta property="og:title" content="生活的主线">
+<meta property="og:url" content="https://zhfangyuan.github.io/2022/04/23/%E7%94%9F%E6%B4%BB%E7%9A%84%E4%B8%BB%E7%BA%BF/index.html">
 <meta property="og:site_name" content="Code World">
-<meta property="og:description" content="概念 定义：注解（Annotation），也叫元数据。一种代码级别的说明。它是JDK1.5及以后版本引入的一个特性，与类、接口、枚举是在同一个层次。它可以声明在包、类、字段、方法、局部变量、方法参数等的前面，用来对这些元素进行说明，注释。   定义可能比较抽象，其实我们平时看到的@Override、@Deprecated 等都是注解，其中@Override表示这个方法是重写的方法，@Depreca">
+<meta property="og:description" content="最近在阅读鲁迅的一些文章，有些文章感觉很晦涩难懂，于是在知乎上搜索了一下鲁迅。也没看到什么有意思的回答，然后看到知乎的热门话题《哪一刻你意识到，阅读这件事依然无可替代？》，我最近不是正在阅读吗，于是点进去看了下，看到如下的一位答主的回答和该回答下的一条回复，我觉得很有道理。现摘录在这里。  这个话题我挺有感触。  当人毕业几年，到了三十这个年纪的时候，你会有很多压力需要应付，会有很多不开心的事，并">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-12-29T11:48:40.857Z">
-<meta property="article:modified_time" content="2022-02-27T06:34:05.900Z">
+<meta property="article:published_time" content="2022-04-23T12:44:25.000Z">
+<meta property="article:modified_time" content="2022-04-23T13:14:02.496Z">
 <meta property="article:author" content="大白菜">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://zhfangyuan.github.io/2021/12/29/java%E6%B3%A8%E8%A7%A3/">
+<link rel="canonical" href="https://zhfangyuan.github.io/2022/04/23/%E7%94%9F%E6%B4%BB%E7%9A%84%E4%B8%BB%E7%BA%BF/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhfangyuan.github.io/2021/12/29/java%E6%B3%A8%E8%A7%A3/","path":"2021/12/29/java注解/","title":"java注解"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhfangyuan.github.io/2022/04/23/%E7%94%9F%E6%B4%BB%E7%9A%84%E4%B8%BB%E7%BA%BF/","path":"2022/04/23/生活的主线/","title":"生活的主线"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>java注解 | Code World</title>
+<title>生活的主线 | Code World</title>
   
 
 
@@ -107,7 +107,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -120,7 +120,6 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BE%E4%B8%AA%E4%BE%8B%E5%AD%90"><span class="nav-number">2.</span> <span class="nav-text">举个例子</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -178,7 +177,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zhfangyuan.github.io/2021/12/29/java%E6%B3%A8%E8%A7%A3/">
+    <link itemprop="mainEntityOfPage" href="https://zhfangyuan.github.io/2022/04/23/%E7%94%9F%E6%B4%BB%E7%9A%84%E4%B8%BB%E7%BA%BF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -191,7 +190,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          java注解
+          生活的主线
         </h1>
 
         <div class="post-meta-container">
@@ -201,15 +200,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2021-12-29 19:48:40" itemprop="dateCreated datePublished" datetime="2021-12-29T19:48:40+08:00">2021-12-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-02-27 14:34:05" itemprop="dateModified" datetime="2022-02-27T14:34:05+08:00">2022-02-27</time>
+      <time title="创建时间：2022-04-23 20:44:25 / 修改时间：21:14:02" itemprop="dateCreated datePublished" datetime="2022-04-23T20:44:25+08:00">2022-04-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -217,7 +210,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/java%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">java基础</span></a>
+          <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
         </span>
     </span>
 
@@ -231,18 +224,24 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><blockquote>
-<p>定义：注解（Annotation），也叫元数据。一种代码级别的说明。它是JDK1.5及以后版本引入的一个特性，与类、接口、枚举是在同一个层次。它可以声明在包、类、字段、方法、局部变量、方法参数等的前面，用来对这些元素进行说明，注释。 </p>
+        <p>最近在阅读鲁迅的一些文章，有些文章感觉很晦涩难懂，于是在知乎上搜索了一下鲁迅。也没看到什么有意思的回答，然后看到知乎的热门话题《哪一刻你意识到，阅读这件事依然无可替代？》，我最近不是正在阅读吗，于是点进去看了下，看到如下的一位答主的回答和该回答下的一条回复，我觉得很有道理。现摘录在这里。</p>
+<blockquote>
+<p>这个话题我挺有感触。 </p>
+<p>当人毕业几年，到了三十这个年纪的时候，你会有很多压力需要应付，会有很多不开心的事，并且，你还可能会发现，自己可能除了忙工作，不知道还有什么其他事情值得自己投入精力。 </p>
+<p>当你到了五六十岁，刚退休在家，习惯了日复一日的生活，突然闲了下来，也可能会觉得茫然。</p>
+<p>就在前几天我还和我妈探讨过这个问题。我说您现在还年轻，现在退休了要不要找出一块时间来读一些东西，学点以前没有机会学的东西，或者搞个什么业余爱好，至少是一个长远的计划，不要每天就看小红书。</p>
+<p>老婆说我对妈要求太多了，每天就乐乐呵呵的不好吗？ 我觉得乐乐呵呵当然好，但是人生不可以能一直一帆风顺，也不可能对同样的生活一直保有热情。 </p>
+<p><strong><u>人总需要一个主线剧情，可以不断给你新的风景和新的挑战。让你在困难低谷时，仍然知道自己是为什么乐观地活着。</u></strong></p>
+<p>而阅读和创作就是一个很好的载体。</p>
+<p>当然，它不是唯一的载体。企业家可以为了公司拼搏到七八十岁，科学家可以研究一辈子自己喜欢的东西，而画家、作家、音乐家等等都可以自然找到愿意伴随一生的主线剧情。</p>
+<p>而对于普通人来说，我们至少可以成为音乐爱好者、摄影爱好者、体育爱好者、咖啡爱好者。或者更入世一点，当一个痴迷于深度了解经济、金融、政治、军事、科技等等任何一个领域的真相爱好者（我新发明的）。 </p>
+<p>可能是十年象牙塔的生活重新塑造了我的价值观，在我的眼里，知识和真相本身就是有价值的。愿大家都可以找到自己的主线剧情。远离烦恼，快乐生活。 </p>
 </blockquote>
-<p>定义可能比较抽象，其实我们平时看到的@Override、@Deprecated 等都是注解，其中@Override表示这个方法是重写的方法，@Deprecated表示这个方法被弃用。</p>
-<p>除了这些java本身提供的一些注解，我们自己也可以自定义一些注解，下面举个例子。</p>
-<span id="more"></span>
-
-<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> InvokeLog &#123;</span><br><span class="line">    <span class="function">String <span class="title">methodName</span> <span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面的代码的意思是，我们定义了一个叫做InvokeLog的注解，以后这个注解就可以用在需要的方法上面了。我们需要关注的地方主要有三个。首先，我们定义的是一个注解，所以必须要有@interface注解，其他的注解都是可以省略的，其他的注解省略了就会使用默认的值。然后再来分析下比较重要的两个注解：@Target和@Retention</p>
-<p>@Target注解的作用是定义这个注解使用的范围，ElementType.METHOD表示这个注解使用在方法上面的，再比如ElementType.FIELD表示这个注解使用在成员变量上面的。</p>
-<p>@Retention注解的作用是定义这个注解起作用的范围，RetentionPolicy.RUNTIME表示这个注解在程序运行期间起作用，再比如RetentionPolicy.SOURCE表示这个注解只在编译期间起作用，编译完成之后就没用了。</p>
+<p>下面是其中一条回复</p>
+<blockquote>
+<p>现实生活中有太多的苦，但这都不能成为人生的全部，说逃避也好，说看开也罢，我们可以根据自己的兴趣和能力，找到一个既能实现又能沉溺进去的事情去做，这就是幸福。人的精力十分有限，**<u>如果被各种压力推着走却不去抓主线的话就会活在别人的世界里，又累又没有自我。</u><strong>所以答主的观点我很赞同，也是我一直劝我爱人的话，就是找到自己感兴趣的喜欢投入时间去做的事，甚至可以把工作当成副本，只当是挣钱养活自己的副本，这样我们的精力就会集中，外界的各种诱惑都基本不存在了，烦恼自然也就少了。我说说自己吧，学到博士三十多岁开始工作，慢慢的对工作的热情也没了，基本属于躺平，不用带脑子都能工作，然后列出自己的兴趣、能力，慢慢找到近期感兴趣的事，只要有空闲就投入其中，工作真的当成了副业了，这种感觉真的很好，好像回到了中学时代，做出一道困难的数学题都能开心半天的时代，现在也基本是这样的状态。不刷朋友圈，不刷各种app，有时只看看知乎，说说自己的想法，近况。引大刘的一段话 “其实，儿子，过一个美妙的人生并不难，听爸爸教你：你选一个公认的世界难题，最好是只用一张纸和一只铅笔的数学难题，比如歌德巴赫猜想或费尔马大定理什么的，或连纸笔都不要的纯自然哲学难题，比如宇宙的本源之类，投入全部身心钻研，只问耕耘不问收获，不知不觉的专注中，一辈子也就过去了。</strong><u>人们常说的寄托，也就是这么回事。</u>**或是相反，把挣钱作为惟一的目标，所有的时间都想着怎么挣，也不问挣来干什么用，到死的时候像葛朗台一样抱者一堆金币说：啊，真暖和啊……所以，美妙人生的关键在于你能迷上什么东西。”&lt;刘慈欣 球状闪电&gt; </p>
+</blockquote>
+<p>其实，我在前面一段时间也在思考，我生活工作的意义在哪里，到底什么才是价值。以前的目标是是考上好的高中，考上心仪的大学，考上研究生，找到一份合适的工作，现在的目标是赚很多钱，未来可能又有什么其他什么目标，但是总觉得缺了点什么。是呀，似乎太多时候，我或者说，我们都是在外界的推动下前进，不知不觉就荒废了太多的时间，还过得很累。生活应该是有“主线”任务的，按照自己的“主线”走，生活的价值才是最大的。</p>
 
     </div>
 
@@ -256,13 +255,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/12/29/hello-world/" rel="prev" title="Hello World">
-                  <i class="fa fa-chevron-left"></i> Hello World
+                <a href="/2022/04/09/%E9%B2%81%E8%BF%85%E3%80%8A%E5%BC%9F%E5%85%84%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" rel="prev" title="鲁迅《弟兄》阅读笔记">
+                  <i class="fa fa-chevron-left"></i> 鲁迅《弟兄》阅读笔记
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/01/10/pulsar%E8%B0%83%E7%A0%94/" rel="next" title="pulsar调研">
-                  pulsar调研 <i class="fa fa-chevron-right"></i>
+                <a href="/2022/04/23/%E5%8C%BB%E9%99%A2%E8%A7%81%E9%97%BB/" rel="next" title="医院见闻">
+                  医院见闻 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
