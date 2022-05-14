@@ -130,7 +130,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -165,6 +165,95 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhfangyuan.github.io/2022/03/01/java%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="大白菜">
+      <meta itemprop="description" content="前面有光">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Code World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/01/java%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">java单例模式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-03-01 18:46:49 / 修改时间：19:05:18" itemprop="dateCreated datePublished" datetime="2022-03-01T18:46:49+08:00">2022-03-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>1、实例为私有对象，不可随意访问，因此一种显而易见的方式是通过get方法获取实例；<br>2、get方法各个线程都可以访问，并创建实例，此时会生成多个实例，不满足单例模式的要求；<br>3、一个显而易见的思路是，当一个线程创建实例的时候，需要判断一下该实例是否为null，不为null可直接返回现有的实例对象；<br>4、如果为null的话，说明当前没有线程创建该实例，因此需要对该实例进行初始化，且这种初始化只能进行一次，且只能有一个线程做这个操作；<br>5、因此，在某个线程发现实例为null的时候，加锁，进行创建实例的操作，在锁里面面，要先判断一下该实例是否为null，不为null才初始化实例；<br>6、以上为double check的基本思路，但是此时还是不能保证是单例模式，因为java底层会进行指令重排，因此需要对私有对象instance进行volatile关键字限制</p>
+</blockquote>
+<h2 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h2><p>饿汉式是线程安全的，但不是lazy加载。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton1 instance = <span class="keyword">new</span> Singleton1();</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">singleton1</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton1 <span class="title">getInstance</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> instance;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton2</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton2 instance = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="title">Singleton2</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton2 <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> Singleton2();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="双检测"><a href="#双检测" class="headerlink" title="双检测"></a>双检测</h2><p>目的是提高访问效率，如果没有最外层的判空语句，那么每次调用getInstance()方法，都会互斥访问，影响了访问效率，而加了双重判断效率大大提高。注意，这里还用到了volatile关键字，目的是为了防止指令重排，假设没有这个关键字的话，当一个进程在创建单例对象的时候，假设只创建了一半，此时单例对象已经不为null了，其他线程就会得到一个不完整的单例对象。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton3</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton3 instance = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="title">Singleton3</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton3 <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance = <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span>(Singleton3.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> Instance();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> instance;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="同步枷锁"><a href="#同步枷锁" class="headerlink" title="同步枷锁"></a>同步枷锁</h2><p>直接将方法给锁住，实现简单，但是开销大。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton4</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton4 instance = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="title">Singleton4</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton4 <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> Singleton4();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton5</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerSingleton</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton5 instance = <span class="keyword">new</span> Singleton5();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="title">Singleton5</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton5 <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> InnerSingleton.instance;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -556,7 +645,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-02-27 14:35:48" itemprop="dateModified" datetime="2022-02-27T14:35:48+08:00">2022-02-27</time>
+      <time title="修改时间：2022-05-03 10:34:47" itemprop="dateModified" datetime="2022-05-03T10:34:47+08:00">2022-05-03</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -578,11 +667,120 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="会计信息形成的三个问题"><a href="#会计信息形成的三个问题" class="headerlink" title="会计信息形成的三个问题"></a>会计信息形成的三个问题</h2><p>1、会计主体假设</p>
+          <h2 id="会计信息形成的三个问题"><a href="#会计信息形成的三个问题" class="headerlink" title="会计信息形成的三个问题"></a>会计信息形成的三个问题</h2><p>主体：对谁的经济交易与事项进行记录和报 告</p>
+<p>时点：在什么时点对经济交易与事项进行记录和报告</p>
+<p>金额：以什么金额对经济交易与事项进行记录和报告</p>
+<p>1、会计主体假设</p>
+<p>概念：经济活动的会计处理是以经济个体为单位而认定的，即某一企业的活动与业主及其他企业的活动必须完全分开处理。</p>
 <p>会计主体==法律主体</p>
 <p>会计主体超越法律主体</p>
 <p>2、持续经营假设</p>
+<p>概念：假定企业将持续存在下去，而不会在可预见的将来清算解散。</p>
 <p>3、会计分期假设</p>
+<p>概念：将企业的经营时间划分为等长的时段</p>
+<p>4、货币计量假设</p>
+<p>概念：以货币为计量单位（记账本位币）</p>
+<p>谨慎性原则：存在两种可选会计方法时，应当选择低估好处、高估损失的方法。</p>
+<p>会计恒等式</p>
+<p>资产=负债+所有者权益</p>
+<p>（资金的使用结果） （资金的来源：借债或者股东）</p>
+<p>借方                          贷方</p>
+<p>收入-费用=利润</p>
+<p>资产</p>
+<p>概念：企业过去的交易或者事项形成的，由企业拥有或者控制的，预期会给企业带来经济利益的资源。</p>
+<p>现金资产 非现金资产</p>
+<p>货币资金    不以现金形式存在的资产</p>
+<p>流动资产（企业可以在1年内或者超过1年的一个营业周期内变现或者耗用的资产）</p>
+<p>库存现金、银行存款、应收款项（应收票据、应收账款）、预付款项、存货</p>
+<p>非流动资产（企业不能在1年或者超过1年的一个营业周期内变现或耗用的资产）</p>
+<p>长期股权投资、固定资产、无形资产</p>
+<p>隐性资产：它可能是一项经济资源，对企业有价值，但是没有以资产的名义记录到会计系统</p>
+<p>品牌、人力资源、商业关系、社会关系</p>
+<p>负债和所有者权益</p>
+<p>负债：过去的交易、事项形成的现时义务，履行该义务预期会导致经济利益流出企业</p>
+<p>流动负债  偿还压力大，偿还期限长</p>
+<p>短期借款、应付及预收款项、应付账款、预收账款、应交税金</p>
+<p>长期负债   偿还压力大，偿还期限短</p>
+<p>长期借款、应付债券、长期应付款</p>
+<p>隐性负债：诉讼 、担保、其他（承诺：七天无条件免费退货）</p>
+<p>所有者权益：企业投资者对企业净资产的所有权，包括企业所有者的投资及其增加的权益</p>
+<p>所有者权益就是企业的投资者对企业的剩余索取权。</p>
+<p>所有者直接投入的资本</p>
+<p>企业累计经营经营成功</p>
+<p>会计恒等式举例1</p>
+<p>1月3日，股东认缴企业注册资本500000，存入企业银行账户</p>
+<p>资产（银行存款（+500000））=负债+所有者权益（实收资本（+500000））</p>
+<p>1月5日，企业从银行存款提取现金5000元备用</p>
+<p>资产（现金（+5000）+银行存款（500000-5000））=负债+所有者权益（500000）</p>
+<p>1域月6日，企业从供应商得到面粉等原料，总价8000元，钱未付清</p>
+<p>资产（原材料（+8000））=负债（应付账款（+8000））+所有者权益</p>
+<p>1月7日，企业购买烤箱等设备，以银行存款支付价款30000.设备已经运到。</p>
+<p>资产（固定资产（设备+30000）+银行存款（495000-30000））=负债+所有者权益</p>
+<p>1月8号，企业以银行存款偿还供应商欠款8000元</p>
+<p>资产（银行存款（-8000））=负债（应付账款（-8000））+所有者权益</p>
+<p>六大会计要素</p>
+<p>权责发生制与收入</p>
+<p>什么时候、什么情况下确认收入</p>
+<p>收付实现制：以现金的收支作为确认的依据（会计实务中不允许使用）</p>
+<p>权责发生制：以权利已经形成或义务已经发生作为确认的依据</p>
+<p>收入：企业在日常活动中形成的、会导致所有者权益增加的、与所有者投入资本无关的经济利益的总流入</p>
+<p>主营业务收入、其他业务收入、投资收益、营业外收入、公允价值变动受益</p>
+<p>收入确认：</p>
+<p>收入确认必须符合两项基本条件</p>
+<p>收入的赚取过程已经完成、义务已经完成</p>
+<p>经济利益很可能流入企业</p>
+<p>费用与利润</p>
+<p>费用：企业在日常生活中发生的、会导致所有者权益减少的、与向所有者分配利润无关的经历利益的总流出。</p>
+<p>收入与费用配比</p>
+<p>费用确认：将相关联的收入与费用在同一会计期间入账（包括期间及金额比上的”配比“）</p>
+<p>主营业务收入 主营业务成本</p>
+<p>其他业务收入 其他业务成本</p>
+<p>投资收益  投资损失</p>
+<p>营业外收入 营业外支出</p>
+<p>500元蛋糕的费用构成</p>
+<p>原材料 主营业务成本</p>
+<p>快递运输 销售费用</p>
+<p>广告费用 销售费用、管理费用、财务费用</p>
+<p>有交易的时候：税金及附加</p>
+<p>所得税</p>
+<p>资产减值损失</p>
+<p>利润：企业在一定会计期间内的经营成果，包括收入减去费用后的净额、直接计入当期利润的利得和损失</p>
+<p>利润：营业利润+利得、损失</p>
+<p>利润总额-所得税费用=净利润</p>
+<p>会计恒等式举例2</p>
+<p>1月9日，企业以现金购进饮料2000瓶，价格2000元</p>
+<p>资产（现金（-2000）+库存商品（+2000））=负债+所有者权益</p>
+<p>1月10日，企业卖出饮料100瓶，收到现金200元</p>
+<p>资产（现金（+200））=负债+所有者权益（收入（+200））</p>
+<p>会计科目</p>
+<p>会计科目：相同性质的经济事项归为一类，并明确其核算内容，而这些项目，在会计上就称为会计科目</p>
+<p>会计科目的分类</p>
+<p>按照反映的经济内容分：资产类科目、所有者权益类科目、损益类科目、负债类科目、成本类科目</p>
+<p>按照隶属关系分类：总账科目、明细科目、一级明细、二级明细、三级明细等</p>
+<p>资产类科目：流动资产科目、非流动资产科目</p>
+<p>负债类科目：流动负债类科目、非流动资产类科目</p>
+<p>共同类科目：既有资产性质，又有负债性质</p>
+<p>所有者权益类科目：实收资本（注册资本范围内的投入）、资本公积（指投资者或者他人投入到企业、所有权归属于投资者、并且投入金额上超过法定资本部分的资本；包括资本溢价、资产评估增值、捐赠资本和资本折算差额。）、盈余公积（指公司按照规定从净利润中提取的各种累计资金（公司职工福利设施等））、本年利润（企业档期实现的净利润或者净亏损）、利润分配（核算分红、企业留存（未分配利润））</p>
+<p>成本类科目：成本类科目是反映成本费用和支出的，用于核算成本的发生和归集情况，提供成本相关会计信息的会计科目。</p>
+<p>损益类可科目：收入类科目、费用类科目，期末余额转入本年利润</p>
+<p>会计循环</p>
+<p>会计凭证：原始凭证-&gt;记账凭证</p>
+<p>会计分录</p>
+<p>财务报表</p>
+<p>资产负债表：资产=负债+所有者权益</p>
+<p>资产：按照流动性由强到弱排列</p>
+<p>负债：按照流动性由强到弱排列（还款压力大，偿还期限短）</p>
+<p>利润表：利润=收入-费用</p>
+<p>现金流量表：</p>
+<p>负债：债务的负债+非债务的负债</p>
+<p>债务：需要负担利息的负债</p>
+<p>非债务：不需要承担利息的负债</p>
+<p>资金筹集：所有者权益</p>
+<p>债券筹资：</p>
+<p>&lt;1年：流动负债-”交易性金融负债“</p>
+<p>&gt;1年：长期负债-”应付债券“</p>
+<p>本年利润的核算</p>
+<p>利润=收入-费用</p>
 
       
     </div>
@@ -1035,95 +1233,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhfangyuan.github.io/2021/11/02/%E5%88%9D%E8%AF%86hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="大白菜">
-      <meta itemprop="description" content="前面有光">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Code World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/11/02/%E5%88%9D%E8%AF%86hexo/" class="post-title-link" itemprop="url">初识hexo</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-11-02 21:25:15" itemprop="dateCreated datePublished" datetime="2021-11-02T21:25:15+08:00">2021-11-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-02-27 14:35:14" itemprop="dateModified" datetime="2022-02-27T14:35:14+08:00">2022-02-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="新建博客"><a href="#新建博客" class="headerlink" title="新建博客"></a>新建博客</h2><p>通过命令新建博客的方式有两种。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/11/02/%E5%88%9D%E8%AF%86hexo/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/default-index/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/default-index/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/default-index/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/default-index/">1</a><span class="page-number current">2</span><a class="page-number" href="/default-index/page/3/">3</a><a class="extend next" rel="next" href="/default-index/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
